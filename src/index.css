@@ -1,0 +1,200 @@
+@font-face {
+  font-family: Roboto;
+  src: url(./assets/fonts/Roboto/Roboto-Light.ttf) format("truetype"), url(./assets/fonts/Roboto/Roboto-Light.woff) format("woff"), url(./assets/fonts/Roboto/Roboto-Light.woff2) format("woff2");
+  font-display: swap;
+  font-weight: 300;
+  font-style: normal
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(./assets/fonts/Roboto/Roboto-Regular.ttf) format("truetype"), url(./assets/fonts/Roboto/Roboto-Regular.woff) format("woff"), url(./assets/fonts/Roboto/Roboto-Regular.woff2) format("woff2");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(./assets/fonts/Roboto/Roboto-Medium.ttf) format("truetype"), url(./assets/fonts/Roboto/Roboto-Medium.woff) format("woff"), url(./assets/fonts/Roboto/Roboto-Medium.woff2) format("woff2");
+  font-display: swap;
+  font-weight: 500;
+  font-style: normal
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(./assets/fonts/Roboto/Roboto-Bold.ttf) format("truetype"), url(./assets/fonts/Roboto/Roboto-Bold.woff) format("woff"), url(./assets/fonts/Roboto/Roboto-Bold.woff2) format("woff2");
+  font-display: swap;
+  font-weight: 700;
+  font-style: normal
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(./assets/fonts/Roboto/Roboto-Black.ttf) format("truetype"), url(./assets/fonts/Roboto/Roboto-Black.woff) format("woff"), url(./assets/fonts/Roboto/Roboto-Black.woff2) format("woff2");
+  font-display: swap;
+  font-weight: 900;
+  font-style: normal
+}
+
+@font-face {
+  font-family: ProximaNovaRegular;
+  src: url(./assets/fonts/ProximaNova/ProximaNova-Regular.ttf) format("truetype"), url(./assets/fonts/ProximaNova/ProximaNova-Regular.woff) format("woff"), url(./assets/fonts/ProximaNova/ProximaNova-Regular.woff2) format("woff2");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal
+}
+
+blockquote,
+body,
+code,
+dd,
+div,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+li,
+p,
+pre,
+td,
+textarea,
+th,
+ul {
+  margin: 0;
+  padding: 0
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0
+}
+
+abbr,
+fieldset,
+img {
+  border: 0
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+  font-weight: 400
+}
+
+ul li {
+  list-style: none
+}
+
+caption,
+th {
+  text-align: left
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: 400
+}
+
+sup {
+  vertical-align: text-top
+}
+
+sub {
+  vertical-align: text-bottom
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit
+}
+
+legend {
+  color: #000
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section {
+  display: block
+}
+
+img {
+  max-width: 100%;
+  height: auto
+}
+
+body,
+html {
+  min-height: 100vh
+}
+
+body {
+  color: #3b3b3b;
+  font-size: 14px;
+  line-height: 1.2;
+  font-family: Roboto
+}
+
+.layout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 100vh
+}
+
+.wrapper {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px
+}
+
+.btn {
+  font-size: 16px;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  border: none;
+  border-radius: 21px;
+  padding: 12px;
+  width: 280px;
+  background-color: #fdd639;
+  cursor: pointer
+}
