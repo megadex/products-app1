@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import actions from './../store/actions';
 
 import ProductCart from './ProductCart';
 
-import api from '../api';
+import api from './../api';
 
 class Cart extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      productsCart: [],
+      // productsCart: [],
       cnt: 0,
       price: 10,
       total: 1
@@ -29,7 +31,16 @@ class Cart extends Component {
   componentDidMount() {
     api
       .getCart()
+      .then(json => {
+        const productsCart = json;
+        this.props.onGet(productsCart);
+      });
+
+    /*
+    api
+      .getCart()
       .then(json => this.setState({productsCart: json}));
+    */
   }
 
   handlePlus(product) {
@@ -59,9 +70,13 @@ class Cart extends Component {
     api
       .destroyCart(product)
       .then(() => {
+        /*
         let products = this.state.products;
         products = products.filter(h => h !== product);
         this.setState({productsCart: products});
+        */
+
+        this.props.onDel(product);
       });
 
     this
@@ -72,7 +87,7 @@ class Cart extends Component {
 
   render() {
     const renderProducts = this
-      .state
+      .props
       .productsCart
       .map(product => {
         return (<ProductCart
@@ -98,4 +113,17 @@ class Cart extends Component {
   }
 }
 
-export default Cart;
+let mapStateToProps = (state) => {
+  return {
+    productsCart: state.cart.productsCart
+  }
+};
+
+let mapDispatchToProps = (dispatch) => {
+  return {
+    onGet: (is) => dispatch(actions.cart.get(is)),
+    onDel: (i) => dispatch(actions.cart.remove(i))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

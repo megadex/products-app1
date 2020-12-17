@@ -4,7 +4,7 @@ import actions from './../store/actions';
 
 import Product from './Product';
 import Pagination from './Pagination';
-import Edit from './Edit';
+// import Edit from './Edit';
 
 import api from './../api';
 
@@ -13,60 +13,53 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      // products: [],
+      // products: props.products,
       currentPage: 1,
-      productsPerPage: 10,
-      addingProduct: false
+      productsPerPage: 10
+      // addingProduct: false
     };
 
     this.handleEnableAddMode = this
       .handleEnableAddMode
       .bind(this);
-    this.handleSave = this
+    this.handleDelete = this
+      .handleDelete
+      .bind(this);
+    /* this.handleSave = this
       .handleSave
       .bind(this);
     this.handleOnChange = this
       .handleOnChange
-      .bind(this);
-    this.handleDelete = this
-      .handleDelete
       .bind(this);
     this.handleCancel = this
       .handleCancel
       .bind(this);
     this.handleSelect = this
       .handleSelect
-      .bind(this);
+      .bind(this); */
   }
 
   componentDidMount() {
     api
       .get()
-      .then(json => this.setState({products: json}));
-  }
-
-  handleSelect(product) {
-    this.setState({selectedProduct: product});
-  }
-
-  handleDelete(event, product) {
-    event.stopPropagation();
-
-    api
-      .destroy(product)
-      .then(() => {
-        let products = this.state.products;
-        products = products.filter(h => h !== product);
-        this.setState({products: products});
-
-        if (this.selectedProduct === product) {
-          this.setState({selectedProduct: null});
-        }
+      .then(json => {
+        const products = json;
+        this.props.onGet(products);
       });
+
+    /*
+    api
+      .get()
+      .then(json => this.setState({products: json}));
+    */
   }
+
+  /* handleSelect(product) {
+    this.setState({selectedProduct: product});
+  } */
 
   handleEnableAddMode() {
-    this.setState({
+    /* this.setState({
       addingProduct: true,
       selectedProduct: {
         title: '',
@@ -74,11 +67,13 @@ class Main extends Component {
         description: '',
         inCart: false
       }
-    });
+    }); */
+    this.props.addMode();
 
-    // this.props.history.push('/edit');
+    this.props.history.push('/edit');
   }
 
+  /*
   handleCancel() {
     this.setState({addingProduct: false, selectedProduct: null});
   }
@@ -113,11 +108,50 @@ class Main extends Component {
     selectedProduct[event.target.name] = event.target.value;
     this.setState({selectedProduct: selectedProduct});
   }
+  */
+
+  handleDelete(event, product) {
+    event.stopPropagation();
+
+    api
+      .destroy(product)
+      .then(() => {
+        /*
+        let products = this.state.products;
+        products = products.filter(h => h !== product);
+        this.setState({products: products});
+        */
+        this.props.onDel(product);
+
+        /* if (this.selectedProduct === product) {
+          this.setState({selectedProduct: null});
+        } */
+      });
+  }
+
+  handleFilter = (valueM) => {
+    // event.preventDefault();
+    
+    // let value = event.target.value;
+    let value = valueM.trim().toLowerCase();
+    this.setState({valueFilter: value});
+
+    if (value === '') {
+      api
+      .get()
+      .then(json => {
+        const products = json;
+        this.props.onGet(products);
+      });
+    } else {
+      this.props.onFilter(value);
+    }
+  }
 
   render() {
-    // const {products, currentPage, productsPerPage} = this.state;
     const {currentPage, productsPerPage} = this.state;
-    const products = this.props.products;
+    const products = [...this.props.products];
+    console.log('[p]', products);
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -127,9 +161,9 @@ class Main extends Component {
       return (<Product
         key={product.id}
         product={product}
-        onSelect={this.handleSelect}
+        onSelect={this.props.onSelect}
         onDelete={this.handleDelete}
-        selectedProduct={this.state.selectedProduct}/>);
+        selectedProduct={this.props.selectedProduct}/>);
     });
 
     const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
@@ -143,7 +177,7 @@ class Main extends Component {
         <label>
           Title
         </label>
-        <input type="text" name="filter" placeholder="Filter" className="filter"/>
+        <input type="text" name="filter" onChange={(e) => this.handleFilter(e.target.value)} placeholder="Filter" className="filter"/>
         <div className="products">
           {renderProducts}
         </div>
@@ -151,26 +185,27 @@ class Main extends Component {
           productsPerPage={productsPerPage}
           totalProducts={products.length}
           paginate={paginate}/>
-        <Edit
-          onChange={this.handleOnChange}
-          selectedProduct={this.state.selectedProduct}
-          onSave={this.handleSave}
-          onCancel={this.handleCancel}/>
+
       </div>
     );
   }
 }
 
 let mapStateToProps = (state) => {
-  console.log(state.products);
   return {
-    products: state.products
+    products: state.main.products,
+    selectedProduct: state.main.selectedProduct
   }
 };
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    onDelete: (i) => dispatch(actions.main.remove(i))
+    onGet: (is) => dispatch(actions.main.get(is)),
+    onDel: (i) => dispatch(actions.main.remove(i)),
+    onFilter: (i) => dispatch(actions.main.filter(i)),
+    onSelect: (i) => dispatch(actions.main.select(i)),
+    addMode: () => dispatch(actions.main.addMode())
+
   }
 };
 

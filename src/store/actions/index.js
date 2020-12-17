@@ -1,3 +1,9 @@
 import * as main from './main';
+import * as cart from './cart';
 
-export default main
+const actions = {
+    main,
+    cart
+};
+
+export default actions;
